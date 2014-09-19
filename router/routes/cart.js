@@ -9,4 +9,11 @@ router.get('/', function(req, res) {
   });
 });
 
+router.post('/',function(req,res){
+  var cart =  req.param('cart');
+  storage.set('cart',JSON.stringify(cart),function(err,obj){
+    res.send(obj);
+  });
+});
+
 module.exports = router;
