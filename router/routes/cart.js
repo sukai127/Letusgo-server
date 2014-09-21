@@ -16,4 +16,10 @@ router.post('/',function(req,res){
   });
 });
 
+router.delete('/',function(req,res){
+  storage.del('cart',function(err,obj){
+    res.send(obj);
+  });
+});
+
 module.exports = router;
