@@ -14,7 +14,7 @@ router.post('/',function(req,res){
     {id : 1, name: 'grocery'},
     {id : 2, name: 'device'}
   ];
-  var newCategories =  req.param('categories') || categories;
+  var newCategories =  req.body.categories || categories;
   storage.set('categories',JSON.stringify(newCategories),function(err,obj){
     res.send(obj);
   });
