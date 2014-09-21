@@ -10,7 +10,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/',function(req,res){
-  var cart =  req.param('cart');
+  var cart =  req.body.cart;
   storage.set('cart',JSON.stringify(cart),function(err,obj){
     res.send(obj);
   });
