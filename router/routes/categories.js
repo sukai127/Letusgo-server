@@ -3,9 +3,21 @@ var router = express.Router();
 var redis = require('redis');
 var storage = redis.createClient();
 
+var _ = require('lodash');
+
 router.get('/', function(req, res) {
   storage.get('categories',function(err,data){
     res.send(data);
+  });
+});
+
+router.get('/:id', function(req, res) {
+  var id = req.params.id;
+  storage.get('categories',function(err,categories){
+    var result = _.find(JSON.parse(categories),function(category){
+      return category.id.toString() == id.toString();
+    });
+    res.send(result);
   });
 });
 
