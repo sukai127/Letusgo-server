@@ -21,6 +21,24 @@ router.get('/:id', function(req, res) {
   });
 });
 
+
+router.put('/:id', function(req, res) {
+  var category = req.body.category;
+  var id = req.params.id;
+  storage.get('categories',function(err,data){
+    var categories = JSON.parse(data);
+    _.find(categories,function(item,index){
+      if(item.id === id){
+        categories[index] = category;
+      }
+    });
+    storage.set('products',JSON.stringify(categories),function(err,obj){
+      res.send(obj);
+    });
+  })
+});
+
+
 router.post('/',function(req,res){
   var categories = [
     {id : 1, name: 'grocery'},
