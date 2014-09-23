@@ -11,15 +11,14 @@ router.get('/', function(req, res) {
   });
 });
 
-router.post('/:product', function(req, res) {
-  var product = req.params.product;
+router.get('/:id', function(req, res) {
+  var id = req.params.id;
   storage.get('products',function(err,data){
-    var products = JSON.parse(data);
-    products.push(product);
-    storage.set('products',JSON.stringify(products),function(err,data){
-      res.send(data);
+    var result = _.find(JSON.parse(data),function(product){
+      return product.id.toString() === id.toString();
     });
-  })
+    res.send(result);
+  });
 });
 
 router.post('/',function(req,res){
