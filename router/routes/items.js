@@ -21,6 +21,19 @@ router.get('/:id', function(req, res) {
   });
 });
 
+router.delete('/:id', function(req, res) {
+  var id = req.params.id;
+  storage.get('products',function(err,data){
+    var products = JSON.parse(data);
+    _.remove(products,function(product){
+      return product.id.toString() === id.toString();
+    });
+    storage.set('products',JSON.stringify(products),function(err,obj){
+      res.send(obj);
+    });
+  });
+});
+
 router.post('/',function(req,res){
   var products = [
     {id:1, name: 'Instant_noodles', unit: 'bag', categoryId: '1', price: 1},
