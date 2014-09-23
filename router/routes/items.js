@@ -50,7 +50,7 @@ router.post('/',function(req,res){
 
 router.put('/:id', function(req, res) {
   var product = req.body.product;
-  var product = req.params.id;
+  var id = req.params.id;
   storage.get('products',function(err,data){
     var products = JSON.parse(data);
     _.find(products,function(item,index){
