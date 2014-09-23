@@ -32,12 +32,24 @@ router.put('/:id', function(req, res) {
         categories[index] = category;
       }
     });
-    storage.set('products',JSON.stringify(categories),function(err,obj){
+    storage.set('categories',JSON.stringify(categories),function(err,obj){
       res.send(obj);
     });
   })
 });
 
+router.delete('/:id', function(req, res) {
+  var id = req.params.id;
+  storage.get('categories',function(err,data){
+    var categories = JSON.parse(data);
+    _.remove(categories,function(category){
+      return category.id.toString() === id.toString();
+    });
+    storage.set('categories',JSON.stringify(categories),function(err,obj){
+      res.send(obj);
+    });
+  });
+});
 
 router.post('/',function(req,res){
   var categories = [
