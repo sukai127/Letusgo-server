@@ -3,6 +3,8 @@ var router = express.Router();
 var redis = require('redis');
 var storage = redis.createClient();
 
+var _ =  require('lodash');
+
 router.get('/', function(req, res) {
   storage.get('products',function(err,data){
     res.send(data);
@@ -14,7 +16,9 @@ router.post('/:product', function(req, res) {
   storage.get('products',function(err,data){
     var products = JSON.parse(data);
     products.push(product);
-    storage.set('products',JSON.stringify(products));
+    storage.set('products',JSON.stringify(products),function(err,data){
+      res.send(data);
+    });
   })
 });
 
@@ -30,6 +34,21 @@ router.post('/',function(req,res){
   storage.set('products',JSON.stringify(newProducts),function(err,obj){
     res.send(obj);
   });
+});
+
+router.put('/:product', function(req, res) {
+  var product = req.params.product;
+  storage.get('products',function(err,data){
+    var products = JSON.parse(data);
+    _.find(products,function(item,index){
+      if(item.id === product.id){
+        products[index] = product;
+      }
+    });
+    storage.set('products',JSON.stringify(products),function(err,obj){
+      res.send(obj);
+    });
+  })
 });
 
 module.exports = router;
