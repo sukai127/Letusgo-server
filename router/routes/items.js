@@ -2,10 +2,20 @@ var express = require('express');
 var router = express.Router();
 var redis = require('redis');
 var storage = redis.createClient();
+
 router.get('/', function(req, res) {
   storage.get('products',function(err,data){
     res.send(data);
   });
+});
+
+router.post('/:product', function(req, res) {
+  var product = req.params.product;
+  storage.get('products',function(err,data){
+    var products = JSON.parse(data);
+    products.push(product);
+    storage.set('products',JSON.stringify(products));
+  })
 });
 
 router.post('/',function(req,res){
