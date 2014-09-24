@@ -22,4 +22,17 @@ router.delete('/',function(req,res){
   });
 });
 
+router.delete('/:id', function(req, res) {
+  var id = req.params.id;
+  storage.get('cart',function(err,data){
+    var cart = JSON.parse(data);
+    _.remove(cart.cartItems,function(cartitem){
+      return cartitem.id.toString() === id.toString();
+    });
+    storage.set('cart',JSON.stringify(cart),function(err,obj){
+      res.send(obj);
+    });
+  });
+});
+
 module.exports = router;
