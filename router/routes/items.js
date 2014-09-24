@@ -61,7 +61,7 @@ router.put('/:id', function(req, res) {
   storage.get('products',function(err,data){
     var products = JSON.parse(data);
     _.find(products,function(item,index){
-      if(item.id === id){
+      if(item.id.toString() === id.toString()){
         products[index] = product;
       }
     });
