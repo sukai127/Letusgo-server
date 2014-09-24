@@ -35,18 +35,22 @@ router.delete('/:id', function(req, res) {
 });
 
 router.post('/',function(req,res){
-  var products = [
-    {id:1, name: 'Instant_noodles', unit: 'bag', categoryId: '1', price: 1},
-    {id:2, name: 'apple', unit: 'kg', categoryId: '1', price: 2.5},
-    {id:3, name: 'coca_cola', unit: 'bottle', categoryId: '1', price: 0.5},
-    {id:4, name: 'kettle', unit: 'piece', categoryId: '2', price: 43.5},
-    {id:5, name: 'fan', unit: 'piece', categoryId: '2', price: 30}
-  ];
+  var initProducts = function(){
+    return [
+      {id:1, name: 'Instant_noodles', unit: 'bag', categoryId: '1', price: 1},
+      {id:2, name: 'apple', unit: 'kg', categoryId: '1', price: 2.5},
+      {id:3, name: 'coca_cola', unit: 'bottle', categoryId: '1', price: 0.5},
+      {id:4, name: 'kettle', unit: 'piece', categoryId: '2', price: 43.5},
+      {id:5, name: 'fan', unit: 'piece', categoryId: '2', price: 30}
+    ];
+  };
   var product = req.body.product;
-  var newProducts = products;
+  var newProducts = initProducts();
   storage.get('products',function(err,data){
     if(product){
       newProducts = JSON.parse(data);
+      var id = newProducts[newProducts.length-1].id + 1;
+      product.id = id;
       newProducts.push(product);
     }
     storage.set('products',JSON.stringify(newProducts),function(err,obj){
