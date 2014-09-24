@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var redis = require('redis');
 var storage = redis.createClient();
+var _ = require('lodash');
 
 router.get('/', function(req, res) {
   storage.get('cart',function(err,data){
@@ -33,6 +34,22 @@ router.delete('/:id', function(req, res) {
       res.send(obj);
     });
   });
+});
+
+router.put('/:id', function(req, res) {
+  var cartItem = req.body.cartItem;
+  var id = req.params.id;
+  storage.get('cart',function(err,data){
+    var cart = JSON.parse(data);
+    _.find(cart.cartItems,function(item,index){
+      if(item.id === id){
+        cart.cartItems[index] = cartItem;
+      }
+    });
+    storage.set('categories',JSON.stringify(categories),function(err,obj){
+      res.send(obj);
+    });
+  })
 });
 
 module.exports = router;
