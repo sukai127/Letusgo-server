@@ -42,9 +42,16 @@ router.post('/',function(req,res){
     {id:4, name: 'kettle', unit: 'piece', categoryId: '2', price: 43.5},
     {id:5, name: 'fan', unit: 'piece', categoryId: '2', price: 30}
   ];
-  var newProducts =  req.body.products || products;
-  storage.set('products',JSON.stringify(newProducts),function(err,obj){
-    res.send(obj);
+  var product = req.body.product;
+  var newProducts = products;
+  storage.get('products',function(err,data){
+    if(product){
+      newProducts = JSON.parse(data);
+      newProducts.push(product);
+    }
+    storage.set('products',JSON.stringify(newProducts),function(err,obj){
+      res.send(obj);
+    });
   });
 });
 
