@@ -46,7 +46,7 @@ router.put('/:id', function(req, res) {
         cart.cartItems[index] = cartItem;
       }
     });
-    storage.set('categories',JSON.stringify(categories),function(err,obj){
+    storage.set('cart',JSON.stringify(cart),function(err,obj){
       res.send(obj);
     });
   })
