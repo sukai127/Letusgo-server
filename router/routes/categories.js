@@ -59,7 +59,7 @@ router.post('/',function(req,res){
     ];
   };
   var newCategories = initCategories();
-  var category = req.body.category
+  var category = req.body.category;
   storage.get('categories',function(err,data){
     if(category){
       newCategories = JSON.parse(data);
