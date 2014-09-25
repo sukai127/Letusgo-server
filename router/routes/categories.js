@@ -28,7 +28,7 @@ router.put('/:id', function(req, res) {
   storage.get('categories',function(err,data){
     var categories = JSON.parse(data);
     _.find(categories,function(item,index){
-      if(item.id === id){
+      if(item.id.toString() === id.toString()){
         categories[index] = category;
       }
     });
