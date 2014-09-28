@@ -77,23 +77,16 @@ router.delete('/:id', function(req, res) {
 });
 
 router.post('/',function(req,res){
-  var initCategories = function(){
-    return [
-      {id : 1, name: 'grocery'},
-      {id : 2, name: 'device'}
-    ];
-  };
-  var newCategories = initCategories();
+
   var category = req.body.category;
 
   storage.get('categories',function(err,data){
 
-    if(category){
-      newCategories = JSON.parse(data);
-      var id = newCategories[newCategories.length-1].id + 1;
-      category.id = id;
-      newCategories.push(category);
-    }
+    var newCategories = JSON.parse(data);
+    var id = newCategories[newCategories.length-1].id + 1;
+
+    category.id = id;
+    newCategories.push(category);
 
     storage.set('categories',JSON.stringify(newCategories),function(err,obj){
       res.send(obj);
