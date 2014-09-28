@@ -11,9 +11,13 @@ router.get('/', function(req, res) {
 });
 
 router.post('/',function(req,res){
-  var cart =  req.body.cart;
-  storage.set('cart',JSON.stringify(cart),function(err,obj){
-    res.send(obj);
+  var cartItem =  req.body.cartItem;
+  storage.get('cartItems',function(err,data){
+    var cartItems = JSON.parse(data);
+    cartItems.push(cartItem);
+    storage.set('cart',JSON.stringify(cartItems),function(err,obj){
+      res.send(obj);
+    });
   });
 });
 
