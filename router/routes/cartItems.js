@@ -44,14 +44,14 @@ router.delete('/:id', function(req, res) {
 router.put('/:id', function(req, res) {
   var cartItem = req.body.cartItem;
   var id = req.params.id;
-  storage.get('cart',function(err,data){
-    var cart = JSON.parse(data);
-    _.find(cart.cartItems,function(item,index){
-      if(item.id === id){
-        cart.cartItems[index] = cartItem;
+  storage.get('cartItems',function(err,data){
+    var cartItems = JSON.parse(data);
+    _.find(cartItems,function(item,index){
+      if(item.id.toString() === id.toString()){
+        cartItems[index] = cartItem;
       }
     });
-    storage.set('cart',JSON.stringify(cart),function(err,obj){
+    storage.set('cartItems',JSON.stringify(cartItems),function(err,obj){
       res.send(obj);
     });
   })
