@@ -12,22 +12,31 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:id', function(req, res) {
+
   var id = req.params.id;
+
   storage.get('products',function(err,data){
+
     var result = _.find(JSON.parse(data),function(product){
       return product.id.toString() === id.toString();
     });
+
     res.send(result);
   });
 });
 
 router.delete('/:id', function(req, res) {
+
   var id = req.params.id;
+
   storage.get('products',function(err,data){
+
     var products = JSON.parse(data);
+
     _.remove(products,function(product){
       return product.id.toString() === id.toString();
     });
+
     storage.set('products',JSON.stringify(products),function(err,obj){
       res.send(obj);
     });
@@ -35,6 +44,7 @@ router.delete('/:id', function(req, res) {
 });
 
 router.post('/',function(req,res){
+
   var initProducts = function(){
     return [
       {id:1, name: 'Instant_noodles', unit: 'bag', categoryId: '1', price: 1},
@@ -44,15 +54,19 @@ router.post('/',function(req,res){
       {id:5, name: 'fan', unit: 'piece', categoryId: '2', price: 30}
     ];
   };
+
   var product = req.body.product;
   var newProducts = initProducts();
+
   storage.get('products',function(err,data){
+
     if(product){
       newProducts = JSON.parse(data);
       var id = newProducts[newProducts.length-1].id + 1;
       product.id = id;
       newProducts.push(product);
     }
+
     storage.set('products',JSON.stringify(newProducts),function(err,obj){
       res.send(obj);
     });
@@ -60,15 +74,20 @@ router.post('/',function(req,res){
 });
 
 router.put('/:id', function(req, res) {
+
   var product = req.body.product;
   var id = req.params.id;
+
   storage.get('products',function(err,data){
+
     var products = JSON.parse(data);
+
     _.find(products,function(item,index){
       if(item.id.toString() === id.toString()){
         products[index] = product;
       }
     });
+    
     storage.set('products',JSON.stringify(products),function(err,obj){
       res.send(obj);
     });
