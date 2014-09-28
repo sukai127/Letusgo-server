@@ -15,7 +15,7 @@ router.post('/',function(req,res){
   storage.get('cartItems',function(err,data){
     var cartItems = JSON.parse(data);
     cartItems.push(cartItem);
-    storage.set('cart',JSON.stringify(cartItems),function(err,obj){
+    storage.set('cartItems',JSON.stringify(cartItems),function(err,obj){
       res.send(obj);
     });
   });
@@ -30,12 +30,12 @@ router.delete('/',function(req,res){
 
 router.delete('/:id', function(req, res) {
   var id = req.params.id;
-  storage.get('cart',function(err,data){
-    var cart = JSON.parse(data);
-    _.remove(cart.cartItems,function(cartitem){
+  storage.get('cartItems',function(err,data){
+    var cartItems = JSON.parse(data);
+    _.remove(cartItems,function(cartitem){
       return cartitem.id.toString() === id.toString();
     });
-    storage.set('cart',JSON.stringify(cart),function(err,obj){
+    storage.set('cartItems',JSON.stringify(cartItems),function(err,obj){
       res.send(obj);
     });
   });
