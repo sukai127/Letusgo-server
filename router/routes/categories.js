@@ -14,7 +14,7 @@ var initCategories = function(){
 
 storage.get('categories',function(err,data){
   if(!data){
-    storage.set('categories',initCategories());
+    storage.set('categories',JSON.stringify(initCategories()));
   }
 });
 
