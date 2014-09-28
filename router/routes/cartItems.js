@@ -18,17 +18,10 @@ router.post('/',function(req,res){
 
     var cartItems = JSON.parse(data);
     cartItems.push(cartItem);
-    
+
     storage.set('cartItems',JSON.stringify(cartItems),function(err,obj){
       res.send(obj);
     });
-  });
-});
-
-router.delete('/',function(req,res){
-  storage.del('cartItems',function(err,obj){
-    res.sendStatus(200);
-    res.send(obj);
   });
 });
 
