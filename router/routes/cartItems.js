@@ -5,7 +5,7 @@ var storage = redis.createClient();
 var _ = require('lodash');
 
 router.get('/', function(req, res) {
-  storage.get('cart',function(err,data){
+  storage.get('cartItems',function(err,data){
     res.send(data);
   });
 });
