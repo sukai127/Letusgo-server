@@ -16,7 +16,12 @@ router.post('/',function(req,res){
 
   storage.get('cartItems',function(err,data){
 
-    var cartItems = JSON.parse(data);
+    var cartItems = JSON.parse(data) || [];
+    var id = 0;
+    if(cartItems.length != 0){
+      id = cartItems[cartItems.length - 1].id;
+    }
+    cartItem.id = id + 1;
     cartItems.push(cartItem);
 
     storage.set('cartItems',JSON.stringify(cartItems),function(err,obj){
