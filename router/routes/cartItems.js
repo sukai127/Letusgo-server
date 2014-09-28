@@ -22,7 +22,7 @@ router.post('/',function(req,res){
 });
 
 router.delete('/',function(req,res){
-  storage.del('cart',function(err,obj){
+  storage.del('cartItems',function(err,obj){
     res.sendStatus(200);
     res.send(obj);
   });
