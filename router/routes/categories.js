@@ -5,6 +5,19 @@ var storage = redis.createClient();
 
 var _ = require('lodash');
 
+var initCategories = function(){
+  return [
+    {id : 1, name: 'grocery'},
+    {id : 2, name: 'device'}
+  ];
+};
+
+storage.get('categories',function(err,data){
+  if(!data){
+    storage.set('categories',initCategories());
+  }
+});
+
 router.get('/', function(req, res) {
   storage.get('categories',function(err,data){
     res.send(data);
@@ -81,7 +94,7 @@ router.post('/',function(req,res){
       category.id = id;
       newCategories.push(category);
     }
-    
+
     storage.set('categories',JSON.stringify(newCategories),function(err,obj){
       res.send(obj);
     });
